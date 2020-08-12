@@ -16,17 +16,20 @@ export class TodoComponent implements OnInit {
   ngOnInit(): void {
     this.todos=[];
   }
-  addEditItem(){
+  addEditItem(f){
     if(this.seletedItem)
-      this.updateItem();
+      this.updateItem(f);
       else
-      this.addItem();
+      this.addItem(f);
   }
-  addItem(){
+  addItem(form){
     if(this.todoname){
     this.todos.push({name:this.todoname,id:this.id});
-    this.todoname="";
+    // this.todoname="";
     this.id++;
+    form.resetForm();
+    debugger;
+    // form.markAsPristine();
   }
   }
   deleteItem(id){
@@ -39,7 +42,7 @@ export class TodoComponent implements OnInit {
     this.seletedItem=data;
     this.todoname=data.name;
   }
-  updateItem(){
+  updateItem(form){
     debugger;
     // let that=this;
     this.todos =  this.todos.filter((itm) =>{
@@ -48,6 +51,8 @@ export class TodoComponent implements OnInit {
         return true;
     });
     this.seletedItem=null;
-    this.todoname="";
+    // this.todoname="";
+    form.resetForm();
+
   }
 }

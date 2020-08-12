@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <form name="form" (ngSubmit)="f.form.valid && addEditItem()" #f="ngForm" novalidate>
+                <form name="form" (ngSubmit)="f.form.valid && addEditItem(f)" #f="ngForm" novalidate>
                    
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="todo" [(ngModel)]="todoname" #todo="ngModel" [ngClass]="{ 'is-invalid': f.submitted && todo.invalid }" required />
