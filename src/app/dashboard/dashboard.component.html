@@ -1,0 +1,63 @@
+<!-- app.component.html -->
+
+<div class="container">
+    <div *ngIf="!matrix">
+        <h1 class="text-center">
+            Welcome to my matrix game !!
+        </h1>
+        <form [formGroup]="angForm" novalidate>
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-group">
+                        <label>Rows:</label>
+                        <input class="form-control" formControlName="rows" type="number" />
+                    </div>
+                    <div *ngIf="angForm.controls['rows'].invalid && (angForm.controls['rows'].dirty || angForm.controls['rows'].touched)" class="alert alert-danger">
+                        <div *ngIf="angForm.controls['rows'].errors.required">
+                            Provide number of row
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="form-group">
+                        <label>Cols:</label>
+                        <input class="form-control" formControlName="cols" type="number" />
+                    </div>
+                    <div *ngIf="angForm.controls['cols'].invalid && (angForm.controls['cols'].dirty || angForm.controls['cols'].touched)" class="alert alert-danger">
+                        <div *ngIf="angForm.controls['cols'].errors.required">
+                            Provide number of cols
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label> <br /></label><br />
+                        <button type="submit" [disabled]="angForm.invalid" class="btn btn-success form-control" (click)="generatematrix()">
+                            generate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <p class="small">*Enter board size to start game</p>
+    </div>
+    <div *ngIf="matrix" class="my-5 text-center">
+        <table class="table table-bordered w-auto m-auto">
+            <tbody>
+                <tr *ngFor="let row of [].constructor(angForm.value.rows);let i=index;">
+                    <td *ngFor="let col of [].constructor(angForm.value.cols);let j=index;">
+                        <div style="width: 30px; height: 30px;">
+                            <img *ngIf="matrix[i][j].current" class="foodimage" src="../../assets/img/red.png" alt="" />
+                            <img *ngIf="matrix[i][j].hasfood" class="foodimage" src="../../assets/img/green.png" alt="" />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p *ngIf="this.gameover" class="text-danger">Game over you eat all food in {{totalStep}} steps</p>
+        <br>
+        <button class="btn btn-info" (click)="resetgame()">Reset game</button> &nbsp;
+        <button class="btn btn-danger" (click)="goback()">go back</button>
+        <p><strong>Note:</strong>Use arrow key to move </p>
+    </div>
+</div>

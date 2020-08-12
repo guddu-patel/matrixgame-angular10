@@ -1,0 +1,38 @@
+<!-- main app container -->
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form name="form" (ngSubmit)="f.form.valid && addEditItem()" #f="ngForm" novalidate>
+                   
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="todo" [(ngModel)]="todoname" #todo="ngModel" [ngClass]="{ 'is-invalid': f.submitted && todo.invalid }" required />
+
+                        <div class="input-group-append" *ngIf="!seletedItem">
+                          <button class="btn btn-success" type="submit">add</button>
+                        </div>
+                        <div class="input-group-append" *ngIf="seletedItem">
+                            <button class="btn btn-primary" type="submit">update</button>
+                            <button class="btn btn-danger" type="button" (click)='seletedItem=null'>Cancel</button>
+                          </div>
+                        <div *ngIf="f.submitted && todo.invalid" class="invalid-feedback">
+                            <div *ngIf="todo.errors.required">Todo Name is required</div>
+                        </div>
+                    </div>
+                  
+                </form>
+            </div>
+        </div>
+        <div *ngFor="let todo of todos">
+
+            <div class="alert alert-success ">
+                <div class="btn-group btn-group-sm float-right" style="margin-top: -4px;">
+                    <button type="button" class="btn btn-primary float-right" (click)="edit(todo)">Edit</button>
+                    <button type="button" class="btn btn-danger" (click)="deleteItem(todo.id)">Delete</button>
+                  </div>
+                 
+                {{todo.name}}
+              </div>
+        </div>
+    </div>
+</div>
