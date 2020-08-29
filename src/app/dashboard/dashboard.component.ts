@@ -11,18 +11,26 @@ export class DashboardComponent implements OnInit {
   matrix:any[][];
   current=null;
   totalFood=0;
+  totalFoodOriginal=0;
   totalStep=0;
   gameover=false;
+  bestScoreMade=false;
+  userScore:any;
   constructor( private fb:FormBuilder) { 
+    this.userScore={};
     this.createForm();
   }
 
   ngOnInit(): void {
+    
+    this.userScore=JSON.parse(sessionStorage.getItem('score'))||{};
+    console.log('score:',this.userScore);
+    console.log(this.userScore.length)
   }
   createForm() {
     this.angForm = this.fb.group({
-       rows: ['', [Validators.required,Validators.min(2)] ],
-       cols: ['', [Validators.required,Validators.min(2)] ]
+       rows: [5, [Validators.required,Validators.min(2)] ],
+       cols: [5, [Validators.required,Validators.min(2)] ]
     });
   }
   resetgame(){
@@ -31,6 +39,7 @@ export class DashboardComponent implements OnInit {
     // this.angForm.reset();
     // this.matrix=null;
     this.gameover=false;
+    this.bestScoreMade=false;
     this.generatematrix()
   }
   goback(){
@@ -66,13 +75,16 @@ export class DashboardComponent implements OnInit {
         this.totalFood++;
       }
     }
+    this.totalFoodOriginal=this.totalFood;
     console.log(this.matrix);
     console.log(this.current);
     console.log("total food",this.totalFood);
+    // this.userScore[this.totalFoodOriginal]={'best':this.userScore[this.totalFoodOriginal]||0,current:0};
     // console.log(this.angForm.value.rows+','+this.angForm.value.cols);
   }
   Move(key){
     console.log(key);
+    // return;
     if(this.gameover) return;
     switch (key) {
       case "ArrowLeft":
@@ -123,7 +135,21 @@ export class DashboardComponent implements OnInit {
     if(this.totalFood==0){
       this.gameover=true;
       console.log('gameover you had all food in '+this.totalStep+"steps");
+      this.updateBestScore();
     }
+  }
+  updateBestScore(){
+    let BS=0;
+    if(this.userScore[this.totalFoodOriginal] && this.userScore[this.totalFoodOriginal].best<=this.totalStep) {
+      BS=this.userScore[this.totalFoodOriginal].best;
+    }
+    else{
+    BS=this.totalStep;
+    this.bestScoreMade=true;
+  }
+    this.userScore[this.totalFoodOriginal]={'best':BS,'current':this.totalStep};
+    
+      sessionStorage.setItem('score',JSON.stringify(this.userScore));
   }
   updateStepCount(){
     this.totalStep++;

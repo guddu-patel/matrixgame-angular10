@@ -7,7 +7,7 @@
         </h1>
         <form [formGroup]="angForm" novalidate>
             <div class="row">
-                <div class="col-5">
+                <div class="col-sm-5">
                     <div class="form-group">
                         <label>Rows:</label>
                         <input class="form-control" formControlName="rows" type="number" />
@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-5">
+                <div class="col-sm-5">
                     <div class="form-group">
                         <label>Cols:</label>
                         <input class="form-control" formControlName="cols" type="number" />
@@ -29,11 +29,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-sm-2">
                     <div class="form-group">
                         <label> <br /></label><br />
                         <button type="submit" [disabled]="angForm.invalid" class="btn btn-success form-control" (click)="generatematrix()">
-                            generate
+                            Start game
                         </button>
                     </div>
                 </div>
@@ -41,23 +41,78 @@
         </form>
         <p class="small">*Enter board size to start game</p>
     </div>
-    <div *ngIf="matrix" class="my-5 text-center">
-        <table class="table table-bordered w-auto m-auto">
-            <tbody>
-                <tr *ngFor="let row of [].constructor(angForm.value.rows);let i=index;">
-                    <td *ngFor="let col of [].constructor(angForm.value.cols);let j=index;">
-                        <div style="width: 30px; height: 30px;">
-                            <img *ngIf="matrix[i][j].current" class="foodimage" src="../../assets/img/red.png" alt="" />
-                            <img *ngIf="matrix[i][j].hasfood" class="foodimage" src="../../assets/img/green.png" alt="" />
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <p *ngIf="this.gameover" class="text-danger">Game over you eat all food in {{totalStep}} steps</p>
-        <br>
-        <button class="btn btn-info" (click)="resetgame()">Reset game</button> &nbsp;
-        <button class="btn btn-danger" (click)="goback()">go back</button>
-        <p><strong>Note:</strong>Use arrow key to move </p>
+    <div *ngIf="matrix" class="my-5 text-center row">
+        <div class="col-sm-8 ">
+            <div class="overflow-auto">
+            <table class="table table-bordered w-auto m-auto">
+                <tbody>
+                    <tr *ngFor="let row of [].constructor(angForm.value.rows);let i=index;">
+                        <td *ngFor="let col of [].constructor(angForm.value.cols);let j=index;">
+                            <div style="width: 30px; height: 30px;">
+                                <img *ngIf="matrix[i][j].current" class="foodimage" src="../../assets/img/red.png" alt="" />
+                                <img *ngIf="matrix[i][j].hasfood" class="foodimage" src="../../assets/img/green.png" alt="" />
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <p *ngIf="this.gameover" class="text-danger">
+                Game over you eat all food in {{totalStep}} steps
+            </p> 
+            <p *ngIf="this.bestScoreMade" class="text-success">Congratulation, Best score of eating {{totalFoodOriginal}} food in {{totalStep}} steps
+            </p>
+            <br>
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-outline-primary" (click)="Move('ArrowUp')">
+                        <i class="fas fa-arrow-up " ></i>
+                    </button>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-outline-primary mr-4" (click)="Move('ArrowLeft')">
+                        <i class="fas fa-arrow-left  " ></i>
+                    </button>
+                    <button class="btn btn-outline-primary  ml-4" (click)="Move('ArrowRight')">
+                        <i class="fas fa-arrow-right " ></i>
+                    </button>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-outline-primary" (click)="Move('ArrowDown')">
+                        <i class="fas fa-arrow-down " ></i>
+                    </button>
+                </div>
+            </div>
+            <br>
+            <button class="btn btn-info" (click)="resetgame()">Reset game</button> &nbsp;
+            <button class="btn btn-danger" (click)="goback()">go back</button>
+            <p><strong>Note:</strong>Use button/arrow key to move </p>
+        </div>
+        <div class="col-sm-4 border-left">
+            <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Your score</h4>
+                  <table class="table ">
+                    <thead>
+                      <tr>
+                        <th>Food</th>
+                        <th>Current</th>
+                        <th>Best</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let scr of userScore | keyvalue">
+                              <td scope="row" *ngIf="scr.value">{{scr.key}}</td>
+                              <td>{{scr.value.current}}</td>
+                              <td>{{scr.value.best}}</td>
+                      </tr>
+                     <tr *ngIf="(userScore | json) == '{}'">
+                         <td colspan="3">No score</td>
+                     </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

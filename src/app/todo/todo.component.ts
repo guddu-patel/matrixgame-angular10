@@ -19,7 +19,7 @@ export class TodoComponent implements OnInit {
   addEditItem(f){
     if(this.seletedItem)
       this.updateItem(f);
-      else
+    else
       this.addItem(f);
   }
   addItem(form){
@@ -34,6 +34,7 @@ export class TodoComponent implements OnInit {
   }
   deleteItem(id){
     debugger;
+    if(this.seletedItem) this.seletedItem=null;
     this.todos =  this.todos.filter(function(itm) {
       return itm.id != id;
     });
