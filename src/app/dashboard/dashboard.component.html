@@ -65,27 +65,30 @@
             <br>
             <div class="row">
                 <div class="col-12">
-                    <button class="btn btn-outline-primary" (click)="Move('ArrowUp')">
+                    <button class="btn btn-outline-primary" #ArrowUp (click)="Move('ArrowUp')">
                         <i class="fas fa-arrow-up " ></i>
                     </button>
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-outline-primary mr-4" (click)="Move('ArrowLeft')">
+                    <button class="btn btn-outline-primary mr-4" #ArrowLeft (click)="Move('ArrowLeft')">
                         <i class="fas fa-arrow-left  " ></i>
                     </button>
-                    <button class="btn btn-outline-primary  ml-4" (click)="Move('ArrowRight')">
+                    <button class="btn btn-outline-primary  ml-4" #ArrowRight (click)="Move('ArrowRight')">
                         <i class="fas fa-arrow-right " ></i>
                     </button>
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-outline-primary" (click)="Move('ArrowDown')">
+                    <button class="btn btn-outline-primary" #ArrowDown (click)="Move('ArrowDown')">
                         <i class="fas fa-arrow-down " ></i>
                     </button>
                 </div>
             </div>
             <br>
             <button class="btn btn-info" (click)="resetgame()">Reset game</button> &nbsp;
-            <button class="btn btn-danger" (click)="goback()">go back</button>
+            <button class="btn btn-danger" (click)="goback()">go back</button>&nbsp;
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#gameInfo">
+                How to play
+              </button>
             <p><strong>Note:</strong>Use button/arrow key to move </p>
         </div>
         <div class="col-sm-4 border-left">
@@ -116,3 +119,34 @@
         </div>
     </div>
 </div>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="gameInfo">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Instruction</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+           <h6>Here you have to score best</h6> 
+          <ul>
+              <li>Use button/arrow key to move</li>
+              <li>Eat all food on the board</li>
+              <li>Each move count as one step</li>
+            </ul>
+            Hints:Try to move such a way that you can eat all food as less as possible step 
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>

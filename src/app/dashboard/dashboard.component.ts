@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -7,6 +7,10 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('ArrowUp') ArrowUp: ElementRef;
+  @ViewChild('ArrowLeft') ArrowLeft: ElementRef;
+  @ViewChild('ArrowRight') ArrowRight: ElementRef;
+  @ViewChild('ArrowDown') ArrowDown: ElementRef;
   angForm: FormGroup;
   matrix:any[][];
   current=null;
@@ -92,7 +96,7 @@ export class DashboardComponent implements OnInit {
             this.matrix[this.current[0]][this.current[1]].current=false;
             this.current[1]--;
             this.matrix[this.current[0]][this.current[1]].current=true;
-            this.updateStepCount();
+            this.updateStepCount(this.ArrowLeft);
           }
           break;
       case "ArrowRight":
@@ -100,7 +104,7 @@ export class DashboardComponent implements OnInit {
           this.matrix[this.current[0]][this.current[1]].current=false;
           this.current[1]++;
           this.matrix[this.current[0]][this.current[1]].current=true;
-          this.updateStepCount();
+          this.updateStepCount(this.ArrowRight);
         }
           break;
       case "ArrowUp":
@@ -108,7 +112,7 @@ export class DashboardComponent implements OnInit {
           this.matrix[this.current[0]][this.current[1]].current=false;
           this.current[0]--;
           this.matrix[this.current[0]][this.current[1]].current=true;
-          this.updateStepCount();
+          this.updateStepCount(this.ArrowUp);
 
         }
           break;
@@ -117,7 +121,7 @@ export class DashboardComponent implements OnInit {
           this.matrix[this.current[0]][this.current[1]].current=false;
           this.current[0]++;
           this.matrix[this.current[0]][this.current[1]].current=true;
-          this.updateStepCount();
+          this.updateStepCount(this.ArrowDown);
 
         }
           break;
@@ -151,9 +155,16 @@ export class DashboardComponent implements OnInit {
     
       sessionStorage.setItem('score',JSON.stringify(this.userScore));
   }
-  updateStepCount(){
+  updateStepCount(key){
+    this.highlightkey(key);
     this.totalStep++;
     this.updateFoodCount();
-
+  }
+  highlightkey(key){
+    debugger
+    key.nativeElement.classList.add('btnClick');
+    setTimeout(()=>{
+      key.nativeElement.classList.remove('btnClick');
+    },150)
   }
 }
